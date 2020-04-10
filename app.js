@@ -16,6 +16,7 @@ mongoose
 const campgroundSchema = new mongoose.Schema({
   name: String,
   img: String,
+  description: String,
 });
 
 const Campground = mongoose.model("Campground", campgroundSchema);
@@ -67,10 +68,12 @@ app.get("/campgrounds/new", (req, res) => {
 app.post("/campgrounds", (req, res) => {
   const name = req.body.name;
   const img = req.body.image;
+  const description = req.body.desc;
   Campground.create(
     {
       name,
       img,
+      description,
     },
     (err, campground) => {
       if (err) {
