@@ -46,8 +46,6 @@ app.post("/campgrounds", (req, res) => {
     img,
   });
   res.redirect("/campgrounds");
-  // get data from form and add to campgrounds array
-  // redirect back to campgrounds page
 });
 
 // listener
