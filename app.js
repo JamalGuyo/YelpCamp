@@ -51,6 +51,7 @@ app.get("/", (req, res) => {
   res.render("landing");
 });
 
+// INDEX ROUTE
 app.get("/campgrounds", (req, res) => {
   Campground.find({}, (err, campgrounds) => {
     if (err) {
@@ -61,10 +62,12 @@ app.get("/campgrounds", (req, res) => {
   });
 });
 
+// NEW ROUTE
 app.get("/campgrounds/new", (req, res) => {
   res.render("new");
 });
 
+// CREATE ROUTE
 app.post("/campgrounds", (req, res) => {
   const name = req.body.name;
   const img = req.body.image;
@@ -83,6 +86,17 @@ app.post("/campgrounds", (req, res) => {
       }
     }
   );
+});
+
+// SHOW ROUTE
+app.get("/campgrounds/:id", (req, res) => {
+  Campground.findById(req.params.id, (err, campground) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("show", { campground });
+    }
+  });
 });
 
 // listener
