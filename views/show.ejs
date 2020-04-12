@@ -8,6 +8,13 @@
           <h5 class="card-title"><%= campground.name %></h5>
           <p class="card-text"><%= campground.description %></p>
         </div>
+        <div class="card-footer">
+          <ul>
+            <% campground.comments.forEach(comment => { %>
+            <li><%= comment.author %> - <%= comment.text %></li>
+            <%});%>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
