@@ -14,7 +14,9 @@
         <img class="card-img-top" src="<%= campground.img %>" />
         <div class="card-body">
           <h5 class="card-title"><%= campground.name %></h5>
-          <p class="card-text"><%= campground.description.split(0,12) %></p>
+          <p class="card-text">
+            <%= campground.description.substring(0,32)%>...
+          </p>
         </div>
         <div class="card-footer">
           <a class="btn btn-primary" href="/campgrounds/<%= campground._id %>"
