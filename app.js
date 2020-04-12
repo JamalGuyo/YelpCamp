@@ -44,23 +44,13 @@ app.get("/campgrounds/new", (req, res) => {
 
 // CREATE ROUTE
 app.post("/campgrounds", (req, res) => {
-  const name = req.body.name;
-  const img = req.body.image;
-  const description = req.body.desc;
-  Campground.create(
-    {
-      name,
-      img,
-      description,
-    },
-    (err, campground) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.redirect("/campgrounds");
-      }
+  Campground.create(req.body.campground, (err, campground) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect("/campgrounds");
     }
-  );
+  });
 });
 
 // SHOW ROUTE
@@ -85,6 +75,25 @@ app.get("/campgrounds/:id/comments/new", (req, res) => {
       res.redirect("/campgrounds");
     } else {
       res.render("comments/new", { campground });
+    }
+  });
+});
+
+// COMMENT -> CREATE ROUTE
+app.post("/campgrounds/:id/comments", (req, res) => {
+  Campground.findById(req.params.id, (err, campground) => {
+    if (err) {
+      console.log(err);
+    } else {
+      Comment.create(req.body.comment, (err, comment) => {
+        if (err) {
+          console.log(err);
+        } else {
+          campground.comments.push(comment);
+          campground.save();
+          res.redirect(`/campgrounds/${campground._id}`);
+        }
+      });
     }
   });
 });
