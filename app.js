@@ -32,14 +32,14 @@ app.get("/campgrounds", (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      res.render("index", { campgrounds });
+      res.render("campgrounds/index", { campgrounds });
     }
   });
 });
 
 // NEW ROUTE
 app.get("/campgrounds/new", (req, res) => {
-  res.render("new");
+  res.render("campgrounds/new");
 });
 
 // CREATE ROUTE
@@ -71,9 +71,22 @@ app.get("/campgrounds/:id", (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        res.render("show", { campground });
+        res.render("campgrounds/show", { campground });
       }
     });
+});
+
+// COMMENT ROUTES
+// COMMENT -> NEW ROUTE
+app.get("/campgrounds/:id/comments/new", (req, res) => {
+  Campground.findById(req.params.id, (err, campground) => {
+    if (err) {
+      console.log(err);
+      res.redirect("/campgrounds");
+    } else {
+      res.render("comments/new", { campground });
+    }
+  });
 });
 
 // listener
