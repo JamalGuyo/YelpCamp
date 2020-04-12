@@ -2,7 +2,8 @@ const express = require("express"),
   app = express(),
   bodyParser = require("body-parser"),
   mongoose = require("mongoose"),
-  Campground = require("./models/campground");
+  Campground = require("./models/campground"),
+  seedDb = require("./seed");
 
 // mongoose setup
 mongoose
@@ -17,6 +18,8 @@ mongoose
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
+// run seedDB
+seedDb();
 
 // routes
 app.get("/", (req, res) => {
