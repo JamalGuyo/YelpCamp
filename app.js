@@ -1,7 +1,9 @@
-const express = require("express");
-const app = express();
-const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
+const express = require("express"),
+  app = express(),
+  bodyParser = require("body-parser"),
+  mongoose = require("mongoose"),
+  Campground = require("./models/campground"),
+  seedDb = require("./seed");
 
 // mongoose setup
 mongoose
@@ -12,39 +14,12 @@ mongoose
   .then(() => console.log(`Yelcamp db connected`))
   .catch((err) => console.log(`can't connect to db ${err}`));
 
-// campgrounds schema
-const campgroundSchema = new mongoose.Schema({
-  name: String,
-  img: String,
-  description: String,
-});
-
-const Campground = mongoose.model("Campground", campgroundSchema);
-
 // setup
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
-
-/*
-const campgrounds = [
-  {
-    name: "Mountain Goat's rest",
-    img:
-      "https://images.unsplash.com/photo-1471115853179-bb1d604434e0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-  },
-  {
-    name: "Salmon Creek",
-    img:
-      "https://images.unsplash.com/photo-1500581276021-a4bbcd0050c5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-  },
-  {
-    name: "Granite Hill",
-    img:
-      "https://images.unsplash.com/photo-1487730116645-74489c95b41b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
-  },
-];
-*/
+// run seedDB
+seedDb();
 
 // routes
 app.get("/", (req, res) => {
@@ -57,44 +32,68 @@ app.get("/campgrounds", (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      res.render("index", { campgrounds });
+      res.render("campgrounds/index", { campgrounds });
     }
   });
 });
 
 // NEW ROUTE
 app.get("/campgrounds/new", (req, res) => {
-  res.render("new");
+  res.render("campgrounds/new");
 });
 
 // CREATE ROUTE
 app.post("/campgrounds", (req, res) => {
-  const name = req.body.name;
-  const img = req.body.image;
-  const description = req.body.desc;
-  Campground.create(
-    {
-      name,
-      img,
-      description,
-    },
-    (err, campground) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.redirect("/campgrounds");
-      }
+  Campground.create(req.body.campground, (err, campground) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect("/campgrounds");
     }
-  );
+  });
 });
 
 // SHOW ROUTE
 app.get("/campgrounds/:id", (req, res) => {
+  Campground.findById(req.params.id)
+    .populate("comments")
+    .exec((err, campground) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.render("campgrounds/show", { campground });
+      }
+    });
+});
+
+// COMMENT ROUTES
+// COMMENT -> NEW ROUTE
+app.get("/campgrounds/:id/comments/new", (req, res) => {
+  Campground.findById(req.params.id, (err, campground) => {
+    if (err) {
+      console.log(err);
+      res.redirect("/campgrounds");
+    } else {
+      res.render("comments/new", { campground });
+    }
+  });
+});
+
+// COMMENT -> CREATE ROUTE
+app.post("/campgrounds/:id/comments", (req, res) => {
   Campground.findById(req.params.id, (err, campground) => {
     if (err) {
       console.log(err);
     } else {
-      res.render("show", { campground });
+      Comment.create(req.body.comment, (err, comment) => {
+        if (err) {
+          console.log(err);
+        } else {
+          campground.comments.push(comment);
+          campground.save();
+          res.redirect(`/campgrounds/${campground._id}`);
+        }
+      });
     }
   });
 });
