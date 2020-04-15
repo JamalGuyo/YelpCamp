@@ -3,6 +3,8 @@ const express = require("express"),
   bodyParser = require("body-parser"),
   mongoose = require("mongoose"),
   Campground = require("./models/campground"),
+  passport = require('passport'),
+  LocalStrategy = require('passport-local'),
   seedDb = require("./seed");
 
 // mongoose setup
@@ -20,6 +22,19 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 // run seedDB
 seedDb();
+
+// AUth setup
+app.use(require("express-session")({
+  secret: 'js is an awesome programming language',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // routes
 app.get("/", (req, res) => {
