@@ -54,12 +54,12 @@ app.get("/campgrounds", (req, res) => {
 });
 
 // NEW ROUTE
-app.get("/campgrounds/new", (req, res) => {
+app.get("/campgrounds/new", isLoggedIn, (req, res) => {
   res.render("campgrounds/new");
 });
 
 // CREATE ROUTE
-app.post("/campgrounds", (req, res) => {
+app.post("/campgrounds", isLoggedIn, (req, res) => {
   Campground.create(req.body.campground, (err, campground) => {
     if (err) {
       console.log(err);
@@ -84,7 +84,7 @@ app.get("/campgrounds/:id", (req, res) => {
 
 // COMMENT ROUTES
 // COMMENT -> NEW ROUTE
-app.get("/campgrounds/:id/comments/new", (req, res) => {
+app.get("/campgrounds/:id/comments/new", isLoggedIn, (req, res) => {
   Campground.findById(req.params.id, (err, campground) => {
     if (err) {
       console.log(err);
@@ -96,7 +96,7 @@ app.get("/campgrounds/:id/comments/new", (req, res) => {
 });
 
 // COMMENT -> CREATE ROUTE
-app.post("/campgrounds/:id/comments", (req, res) => {
+app.post("/campgrounds/:id/comments", isLoggedIn, (req, res) => {
   Campground.findById(req.params.id, (err, campground) => {
     if (err) {
       console.log(err);
@@ -141,7 +141,15 @@ app.post('/login', passport.authenticate('local', {
   successRedirect: '/campgrounds',
   failureRedirect: '/login'
 }), (req, res) => {
-})
+});
+
+// MIDDLEWARE
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect('/login');
+}
 
 // listener
 const port = process.env.PORT || 3000;
