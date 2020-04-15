@@ -19,6 +19,11 @@ router.get("/new", isLoggedIn, (req, res) => {
 
 // CREATE ROUTE
 router.post("/", isLoggedIn, (req, res) => {
+    const author = {
+        id: req.user._id,
+        username: req.user.username
+    }
+    req.body.campground.author = author;
     Campground.create(req.body.campground, (err, campground) => {
         if (err) {
             console.log(err);

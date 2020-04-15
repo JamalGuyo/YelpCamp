@@ -7,6 +7,9 @@
         <div class="card-body">
           <h5 class="card-title"><%= campground.name %></h5>
           <p class="card-text"><%= campground.description %></p>
+          <div>
+            <i>submitted by - <%= currentUser.username%></i>
+          </div>
         </div>
         <div class="card-footer">
           <ul>
