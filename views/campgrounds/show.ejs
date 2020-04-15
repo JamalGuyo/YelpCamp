@@ -11,7 +11,7 @@
         <div class="card-footer">
           <ul>
             <% campground.comments.forEach(comment => { %>
-            <li><%= comment.author %> - <%= comment.text %></li>
+            <li><%= comment.author.username %> - <%= comment.text %></li>
             <%});%>
           </ul>
         </div>

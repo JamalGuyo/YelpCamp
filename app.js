@@ -27,7 +27,7 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // run seedDB
-seedDb();
+// seedDb();
 
 // AUth setup
 app.use(require("express-session")({
