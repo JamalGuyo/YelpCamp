@@ -21,6 +21,7 @@ mongoose
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
+
 // run seedDB
 seedDb();
 
@@ -36,6 +37,11 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+// custom middleware
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
+})
 
 // routes
 app.get("/", (req, res) => {
@@ -142,6 +148,12 @@ app.post('/login', passport.authenticate('local', {
   failureRedirect: '/login'
 }), (req, res) => {
 });
+// logout
+app.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/login')
+})
+
 
 // MIDDLEWARE
 function isLoggedIn(req, res, next) {
