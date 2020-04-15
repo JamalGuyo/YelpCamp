@@ -1,5 +1,5 @@
 const express = require('express'),
-    router = express.Router();
+    router = express.Router({ mergeParams: true });
 const Campground = require('../models/campground'),
     Comment = require('../models/comment');
 
