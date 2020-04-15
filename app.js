@@ -5,6 +5,7 @@ const express = require("express"),
   Campground = require("./models/campground"),
   passport = require('passport'),
   LocalStrategy = require('passport-local'),
+  User = require('./models/user'),
   seedDb = require("./seed");
 
 // mongoose setup
@@ -111,6 +112,24 @@ app.post("/campgrounds/:id/comments", (req, res) => {
       });
     }
   });
+});
+
+// AUTH ROUTES
+// REGISTER
+app.get('/register', (req, res) => {
+  res.render('register');
+})
+
+app.post('/register', (req, res) => {
+  User.register(new User({ username: req.body.username }), req.body.password, (err, user) => {
+    if (err) {
+      console.log(err);
+      return res.redirect('/register');
+    }
+    passport.authenticate('local')(req, res, () => {
+      res.redirect('/campgrounds')
+    })
+  })
 });
 
 // listener
