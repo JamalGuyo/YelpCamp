@@ -10,6 +10,14 @@
           <div>
             <i>submitted by - <%= campground.author.username%></i>
           </div>
+          <div>
+            <form class="button-inline" action="/campgrounds/<%= campground._id %>/edit" method="GET">
+              <button class="btn btn-sm btn-warning">EDIT</a>
+            </form>
+            <form class="button-inline" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
+              <button class="btn btn-sm btn-danger">DELETE</a>
+            </form>
+          </div>
         </div>
         <div class="card-footer">
           <ul>
