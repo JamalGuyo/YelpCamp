@@ -23,8 +23,13 @@ router.post("/", isLoggedIn, (req, res) => {
         id: req.user._id,
         username: req.user.username
     }
-    req.body.campground.author = author;
-    Campground.create(req.body.campground, (err, campground) => {
+    const campground = {
+        name: req.body.campground.name,
+        img: req.body.campground.image,
+        description: req.body.campground.desc,
+        author
+    }
+    Campground.create(campground, (err, campground) => {
         if (err) {
             console.log(err);
         } else {
@@ -45,6 +50,43 @@ router.get("/:id", (req, res) => {
             }
         });
 });
+
+// EDIT AND UPDATE ROUTE
+// EDIT
+router.get('/:id/edit', (req, res) => {
+    Campground.findById(req.params.id, (err, campground) => {
+        if (err) {
+            console.log(err);
+            res.redirect('/campgrounds');
+        } else {
+            res.render('campgrounds/edit', { campground });
+        }
+    })
+});
+// update
+router.put('/:id', (req, res) => {
+    Campground.findByIdAndUpdate(req.params.id, req.body.campground, (err, campground) => {
+        if (err) {
+            console.log(err);
+            res.redirect('/campgrounds')
+        } else {
+            res.redirect(`/campgrounds/${req.params.id}`);
+        }
+    })
+})
+
+// delete route
+router.delete('/:id', (req, res) => {
+    Campground.findByIdAndRemove(req.params.id, (err) => {
+        if (err) {
+            console.log(err);
+            res.redirect('/campgrounds');
+        } else {
+            res.redirect('/campgrounds')
+        }
+    })
+})
+
 
 // MIDDLEWARE
 function isLoggedIn(req, res, next) {

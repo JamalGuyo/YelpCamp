@@ -1,3 +1,7 @@
 footer {
   text-align: center;
 }
+.button-inline{
+  display: inline-block;
+  margin: 2px;
+}
