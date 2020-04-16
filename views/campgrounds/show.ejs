@@ -10,6 +10,7 @@
           <div>
             <i>submitted by - <%= campground.author.username%></i>
           </div>
+          <% if(currentUser && currentUser._id.equals(campground.author.id)) {%>
           <div>
             <form class="button-inline" action="/campgrounds/<%= campground._id %>/edit" method="GET">
               <button class="btn btn-sm btn-outline-warning">EDIT</button>
@@ -18,6 +19,7 @@
               <button class="btn btn-sm btn-outline-danger">DELETE</button>
             </form>
           </div>
+          <% } %>
         </div>
         <div class="card-footer">
           <div class="d-flex justify-content-end">
@@ -32,6 +34,7 @@
                 <small>3 days ago</small>
               </div>
               <p class="mb-1"><%= comment.text %></p>
+              <% if(currentUser && currentUser._id.equals(comment.author.id)) {%>
               <small>
                 <form class="button-inline" action="/campgrounds/<%= campground._id %>/comments/<%= comment._id%>/edit"
                   method="GET">
@@ -42,6 +45,7 @@
                   <button class="btn btn-sm btn-outline-danger">DELETE</button>
                 </form>
               </small>
+              <% } %>
             </a>
             <%});%>
           </div>
