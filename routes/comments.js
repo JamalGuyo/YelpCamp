@@ -81,4 +81,22 @@ function isLoggedIn(req, res, next) {
     res.redirect('/login');
 }
 
+function checkCommentOwnership(req, res, next) {
+    if (req.isAuthenticated()) {
+        Comment.findById(req.params.id, (err, comment) => {
+            if (err) {
+                res.redirect('back');
+            } else {
+                if (comment.author.id.equals(req.user._id)) {
+                    next();
+                } else {
+                    res.redirect('back');
+                }
+            }
+        })
+    } else {
+        res.redirect('back');
+    }
+}
+
 module.exports = router;
