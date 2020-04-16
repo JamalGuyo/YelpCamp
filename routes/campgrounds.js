@@ -59,7 +59,7 @@ router.get('/:id/edit', (req, res) => {
             console.log(err);
             res.redirect('/campgrounds');
         } else {
-            res.render('edit', { campground });
+            res.render('campgrounds/edit', { campground });
         }
     })
 });
