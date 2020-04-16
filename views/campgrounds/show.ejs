@@ -26,7 +26,6 @@
             <a class="btn btn-sm btn-outline-success" href="/campgrounds/<%=campground._id%>/comments/new">comment</a>
           </div>
           <hr />
-          <% if(currentUser && currentUser._id.equals(comment.author.id)) {%>
           <div class="list-group">
             <% campground.comments.forEach(comment => { %>
             <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
@@ -35,6 +34,7 @@
                 <small>3 days ago</small>
               </div>
               <p class="mb-1"><%= comment.text %></p>
+              <% if(currentUser && currentUser._id.equals(comment.author.id)) {%>
               <small>
                 <form class="button-inline" action="/campgrounds/<%= campground._id %>/comments/<%= comment._id%>/edit"
                   method="GET">
@@ -45,10 +45,10 @@
                   <button class="btn btn-sm btn-outline-danger">DELETE</button>
                 </form>
               </small>
+              <% } %>
             </a>
             <%});%>
           </div>
-          <% } %>
         </div>
       </div>
     </div>
