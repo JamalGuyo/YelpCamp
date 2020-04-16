@@ -5,6 +5,7 @@ const express = require("express"),
   passport = require('passport'),
   LocalStrategy = require('passport-local'),
   User = require('./models/user'),
+  methodOverride = require('method-override'),
   seedDb = require("./seed");
 
 // modules 
@@ -17,6 +18,7 @@ mongoose
   .connect("mongodb://localhost/yelpcamp", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false
   })
   .then(() => console.log(`Yelcamp db connected`))
   .catch((err) => console.log(`can't connect to db ${err}`));
@@ -25,6 +27,7 @@ mongoose
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 
 // run seedDB
 // seedDb();
