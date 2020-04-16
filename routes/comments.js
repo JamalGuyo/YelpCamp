@@ -38,7 +38,7 @@ router.post("/", isLoggedIn, (req, res) => {
 
 // EDITUPDATE ROUTE
 //EDIT
-router.get('/:comment_id/edit', (req, res) => {
+router.get('/:comment_id/edit', checkCommentOwnership, (req, res) => {
     Comment.findById(req.params.comment_id, (err, comment) => {
         if (err) {
             console.log(err);
@@ -50,7 +50,7 @@ router.get('/:comment_id/edit', (req, res) => {
 });
 
 // UPDATE
-router.put('/:comment_id', (req, res) => {
+router.put('/:comment_id', checkCommentOwnership, (req, res) => {
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, (err, comment) => {
         if (err) {
             console.log(err);
@@ -62,7 +62,7 @@ router.put('/:comment_id', (req, res) => {
 });
 
 // DELETE 
-router.delete('/:comment_id', (req, res) => {
+router.delete('/:comment_id', checkCommentOwnership, (req, res) => {
     Comment.findByIdAndRemove(req.params.comment_id, (err, comment) => {
         if (err) {
             console.log(err);
