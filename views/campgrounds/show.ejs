@@ -12,19 +12,29 @@
           </div>
           <div>
             <form class="button-inline" action="/campgrounds/<%= campground._id %>/edit" method="GET">
-              <button class="btn btn-sm btn-warning">EDIT</a>
+              <button class="btn btn-sm btn-outline-warning">EDIT</a>
             </form>
             <form class="button-inline" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
-              <button class="btn btn-sm btn-danger">DELETE</a>
+              <button class="btn btn-sm btn-outline-danger">DELETE</a>
             </form>
           </div>
         </div>
         <div class="card-footer">
-          <ul>
+          <div class="d-flex justify-content-end">
+            <a class="btn btn-sm btn-outline-success" href="/campgrounds/<%=campground._id%>/comments/new">comment</a>
+          </div>
+          <hr />
+          <div class="list-group">
             <% campground.comments.forEach(comment => { %>
-            <li><%= comment.author.username %> - <%= comment.text %></li>
+            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1"><%= comment.author.username %></h5>
+                <small>3 days ago</small>
+              </div>
+              <p class="mb-1"><%= comment.text %></p>
+            </a>
             <%});%>
-          </ul>
+          </div>
         </div>
       </div>
     </div>
