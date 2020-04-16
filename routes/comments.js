@@ -83,7 +83,7 @@ function isLoggedIn(req, res, next) {
 
 function checkCommentOwnership(req, res, next) {
     if (req.isAuthenticated()) {
-        Comment.findById(req.params.id, (err, comment) => {
+        Comment.findById(req.params.comment_id, (err, comment) => {
             if (err) {
                 res.redirect('back');
             } else {
