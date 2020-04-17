@@ -6,6 +6,7 @@ const express = require("express"),
   LocalStrategy = require('passport-local'),
   User = require('./models/user'),
   methodOverride = require('method-override'),
+  flash = require('connect-flash'),
   seedDb = require("./seed");
 
 // modules 
@@ -28,6 +29,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+app.use(flash());
 
 // run seedDB
 // seedDb();
@@ -47,6 +49,8 @@ passport.deserializeUser(User.deserializeUser());
 // custom middleware
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
+  res.locals.error = req.flash('error');
+  req.locals.success = req.flash('success');
   next();
 })
 
