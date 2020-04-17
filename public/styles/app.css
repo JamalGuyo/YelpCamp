@@ -5,3 +5,6 @@ footer {
   display: inline-block;
   margin: 2px;
 }
+#card{
+  width: 100%;
+}

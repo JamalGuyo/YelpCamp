@@ -1,17 +1,15 @@
 <%- include("../partials/header") %>
 <div class="container">
-  <div class="row">
-    <div class="col-md-10">
-      <div class="card">
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-8 col-xs-12">
+      <div class="ui card" id="card">
         <img class="card-img-top" src="<%= campground.img %>" />
+        <div class="content">
+          <div class="right floated meta">KSH. <%= campground.price%></div>
+          <%= campground.name%>
+        </div>
         <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <h5 class="card-title"><%= campground.name %></h5>
-            <h5 class="card-title text-secondary">Ksh.<%= campground.price %></h5>
-          </div>
-          <hr />
           <p class="card-text"><%= campground.description %></p>
-          <hr />
           <div>
             <i>submitted by - <%= campground.author.username%></i>
           </div>
@@ -30,32 +28,37 @@
           <div class="d-flex justify-content-end">
             <a class="btn btn-sm btn-outline-success" href="/campgrounds/<%=campground._id%>/comments/new">comment</a>
           </div>
-          <hr />
-          <div class="list-group">
+          <!--  -->
+          <div class="ui list">
             <% campground.comments.forEach(comment => { %>
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1"><%= comment.author.username %></h5>
-                <small>3 days ago</small>
+            <div class="item">
+              <span class="ui avatar image">&#128526;</span>
+              <div class="content">
+                <a class="header"><%= campground.author.username%></a>
+                <div class="description"><%= comment.text %></div>
               </div>
-              <p class="mb-1"><%= comment.text %></p>
               <% if(currentUser && currentUser._id.equals(comment.author.id)) {%>
-              <small>
-                <form class="button-inline" action="/campgrounds/<%= campground._id %>/comments/<%= comment._id%>/edit"
-                  method="GET">
-                  <button class="btn btn-sm btn-outline-warning">EDIT</button>
-                </form>
-                <form class="button-inline"
-                  action="/campgrounds/<%= campground._id %>/comments/<%= comment._id%>?_method=DELETE" method="POST">
-                  <button class="btn btn-sm btn-outline-danger">DELETE</button>
-                </form>
-              </small>
+              <div class="right floated meta">
+                <small>
+                  <form class="button-inline"
+                    action="/campgrounds/<%= campground._id %>/comments/<%= comment._id%>/edit" method="GET">
+                    <button class="btn btn-sm btn-outline-warning">EDIT</button>
+                  </form>
+                  <form class="button-inline"
+                    action="/campgrounds/<%= campground._id %>/comments/<%= comment._id%>?_method=DELETE" method="POST">
+                    <button class="btn btn-sm btn-outline-danger">DELETE</button>
+                  </form>
+                </small>
+              </div>
               <% } %>
-            </a>
+            </div>
+            <hr />
             <%});%>
           </div>
+          <!--  -->
         </div>
       </div>
+      <!--  -->
     </div>
   </div>
 </div>
