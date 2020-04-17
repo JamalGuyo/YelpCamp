@@ -13,9 +13,11 @@
       <div class="card mb-5">
         <img class="card-img-top" src="<%= campground.img %>" />
         <div class="card-body">
-          <h5 class="card-title float-left"><%= campground.name %></h5>
-          <h5 class="card-title float-right"><%= campground.price %></h5>
-          <p class="card-text">
+          <div class="d-flex justify-content-between">
+            <h5 class="card-title"><%= campground.name %></h5>
+            <h5 class="card-title text-secondary">Ksh.<%= campground.price %></h5>
+          </div>
+          <p class="card-text text-secondary">
             <%= campground.description.substring(0,21)%>...
           </p>
         </div>
