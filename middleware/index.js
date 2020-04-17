@@ -1,9 +1,9 @@
 const Campground = require('../models/campground'),
     Comment = require('../models/comment');
 
-let middlewareObj = {};
+let middleware = {};
 
-middlewareObj.checkCampgroundOwnership = (req, res, next) => {
+middleware.checkCampgroundOwnership = (req, res, next) => {
     if (req.isAuthenticated()) {
         Campground.findById(req.params.id, (err, campground) => {
             if (err) {
@@ -21,7 +21,7 @@ middlewareObj.checkCampgroundOwnership = (req, res, next) => {
     }
 }
 
-middlewareObj.checkCommentOwnership = (req, res, next) => {
+middleware.checkCommentOwnership = (req, res, next) => {
     if (req.isAuthenticated()) {
         Comment.findById(req.params.comment_id, (err, comment) => {
             if (err) {
@@ -39,7 +39,7 @@ middlewareObj.checkCommentOwnership = (req, res, next) => {
     }
 }
 
-middlewareObj.isLoggedIn = (req, res, next) => {
+middleware.isLoggedIn = (req, res, next) => {
     if (req.isAuthenticated()) {
         return next();
     }
@@ -47,4 +47,4 @@ middlewareObj.isLoggedIn = (req, res, next) => {
 }
 
 
-module.exports = middlewareObj;
+module.exports = middleware;
