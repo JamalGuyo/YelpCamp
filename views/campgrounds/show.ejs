@@ -5,8 +5,13 @@
       <div class="card">
         <img class="card-img-top" src="<%= campground.img %>" />
         <div class="card-body">
-          <h5 class="card-title"><%= campground.name %></h5>
+          <div class="d-flex justify-content-between">
+            <h5 class="card-title"><%= campground.name %></h5>
+            <h5 class="card-title text-secondary">Ksh.<%= campground.price %></h5>
+          </div>
+          <hr />
           <p class="card-text"><%= campground.description %></p>
+          <hr />
           <div>
             <i>submitted by - <%= campground.author.username%></i>
           </div>
