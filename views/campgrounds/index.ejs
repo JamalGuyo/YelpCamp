@@ -10,21 +10,26 @@
   <div class="row">
     <% campgrounds.forEach(campground => { %>
     <div class="col-md-3 col-sm-6">
-      <div class="card mb-5">
-        <img class="card-img-top" src="<%= campground.img %>" />
-        <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <h5 class="card-title"><%= campground.name %></h5>
-            <h5 class="card-title text-secondary">Ksh.<%= campground.price %></h5>
-          </div>
-          <p class="card-text text-secondary">
-            <%= campground.description.substring(0,21)%>...
-          </p>
+      <!--  -->
+      <div class="ui card">
+        <div class="content">
+          <div class="right floated meta"><%= campground.created.toLocaleString()%></div>
+          &#128516; <%= campground.author.username%>
         </div>
-        <div class="card-footer">
-          <a class="btn btn-primary" href="/campgrounds/<%= campground._id %>">More info...</a>
+        <div class="image">
+          <img class="card-img-top" src="<%= campground.img%>" />
+        </div>
+        <div class="content">
+          <a href="/campgrounds/<%= campground._id %>">
+            <span class="right floated">
+              <i class="angle double right icon"></i>view
+            </span>
+          </a>
+          <i class="comment icon"></i>
+          <%= campground.comments.length%> comments
         </div>
       </div>
+      <!--  -->
     </div>
     <% }) %>
   </div>
