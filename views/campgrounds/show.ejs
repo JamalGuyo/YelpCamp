@@ -28,13 +28,13 @@
           <div class="d-flex justify-content-end">
             <a class="btn btn-sm btn-outline-success" href="/campgrounds/<%=campground._id%>/comments/new">comment</a>
           </div>
-          <!--  -->
+          <!-- COMMENTS -->
           <div class="ui list">
             <% campground.comments.forEach(comment => { %>
             <div class="item">
               <span class="ui avatar image">&#128526;</span>
               <div class="content">
-                <a class="header"><%= campground.author.username%></a>
+                <a class="header"><%= comment.author.username%></a>
                 <div class="description"><%= comment.text %></div>
               </div>
               <% if(currentUser && currentUser._id.equals(comment.author.id)) {%>
