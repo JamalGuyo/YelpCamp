@@ -15,10 +15,11 @@ router.get('/register', (req, res) => {
 router.post('/register', (req, res) => {
     User.register(new User({ username: req.body.username }), req.body.password, (err, user) => {
         if (err) {
-            console.log(err);
+            req.flash('error', err.message);
             return res.redirect('/register');
         }
         passport.authenticate('local')(req, res, () => {
+            req.flash('success', `Welcome to YelpCamp ${req.user.username}`);
             res.redirect('/campgrounds')
         })
     })
@@ -37,16 +38,8 @@ router.post('/login', passport.authenticate('local', {
 // logout
 router.get('/logout', (req, res) => {
     req.logout();
-    res.redirect('/login')
-})
-
-
-// MIDDLEWARE
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/login');
-}
+    req.flash('success', 'successfully logged out')
+    res.redirect('/campgrounds');
+});
 
 module.exports = router;
