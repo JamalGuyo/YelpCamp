@@ -1,7 +1,15 @@
 footer {
+  margin: 5px;
   text-align: center;
 }
 .button-inline{
   display: inline-block;
   margin: 2px;
+}
+#card{
+  width: 100% !important;
+}
+.image{
+  max-height: 200px !important;
+  overflow: hidden;
 }
