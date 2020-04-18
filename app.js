@@ -16,14 +16,14 @@ const indexRoute = require('./routes/index'),
 
 // mongoose setup
 mongoose
-  .connect("mongodb://localhost/yelpcamp", {
+  .connect(process.env.DATABASEURL, {
     useNewUrlParser: true,
+    useCreateIndex: true,
     useUnifiedTopology: true,
     useFindAndModify: false
   })
   .then(() => console.log(`Yelcamp db connected`))
   .catch((err) => console.log(`can't connect to db ${err}`));
-
 // setup
 app.set("view engine", "ejs");
 app.use(express.static("public"));
