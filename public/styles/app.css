@@ -8,3 +8,7 @@ footer {
 #card{
   width: 100%;
 }
+.image{
+  max-height: 200px !important;
+  overflow: hidden;
+}
