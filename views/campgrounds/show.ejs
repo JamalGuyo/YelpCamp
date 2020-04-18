@@ -1,0 +1,78 @@
+<%- include("../partials/header") %>
+<div class="container">
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-4 col-sm 12">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d15946.081085805818!2d37.9879424!3d2.3298048!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2ske!4v1587212097347!5m2!1sen!2ske"
+        width="100%" height="400px" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false"
+        tabindex="0"></iframe>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <div class="ui card" id="card">
+        <img class="card-img-top" src="<%= campground.img %>" />
+        <!--  -->
+        <div class="content">
+          <div class="header right floated meta">Ksh.<%= campground.price%>.00
+          </div>
+          <h4 class="header"><%= campground.name%></h4>
+          <div class="ui small feed">
+            <p class="card-text"><%= campground.description %></p>
+          </div>
+        </div>
+
+        <!--  -->
+        <div class="content">
+          <div>
+            <i>submitted by - <%= campground.author.username%></i>
+          </div>
+          <% if(currentUser && currentUser._id.equals(campground.author.id)) {%>
+          <div>
+            <form class="button-inline" action="/campgrounds/<%= campground._id %>/edit" method="GET">
+              <button class="btn btn-sm btn-outline-warning">EDIT</button>
+            </form>
+            <form class="button-inline" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
+              <button class="btn btn-sm btn-outline-danger">DELETE</button>
+            </form>
+          </div>
+          <% } %>
+        </div>
+        <div class="card-footer">
+          <div class="d-flex justify-content-end">
+            <a class="btn btn-sm btn-outline-success" href="/campgrounds/<%=campground._id%>/comments/new">comment</a>
+          </div>
+          <!-- COMMENTS -->
+          <div class="ui list">
+            <% campground.comments.forEach(comment => { %>
+            <div class="item">
+              <img class="ui avatar image"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTw_2ParYXJZ9BWUUJ8fTioVDdqPe0bbBJ9-rhl4kkBeUFxcLP3&usqp=CAU">
+              <div class="content">
+                <a class="header"><%= comment.author.username%></a>
+                <div class="description"><%= comment.text %></div>
+              </div>
+              <% if(currentUser && currentUser._id.equals(comment.author.id)) {%>
+              <div class="right floated meta">
+                <small>
+                  <form class="button-inline"
+                    action="/campgrounds/<%= campground._id %>/comments/<%= comment._id%>/edit" method="GET">
+                    <button class="btn btn-sm btn-outline-warning">EDIT</button>
+                  </form>
+                  <form class="button-inline"
+                    action="/campgrounds/<%= campground._id %>/comments/<%= comment._id%>?_method=DELETE" method="POST">
+                    <button class="btn btn-sm btn-outline-danger">DELETE</button>
+                  </form>
+                </small>
+              </div>
+              <% } %>
+            </div>
+            <hr />
+            <%});%>
+          </div>
+          <!--  -->
+        </div>
+      </div>
+      <!--  -->
+    </div>
+  </div>
+</div>
+<%- include("../partials/footer") %>
