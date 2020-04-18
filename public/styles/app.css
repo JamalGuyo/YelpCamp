@@ -6,7 +6,7 @@ footer {
   margin: 2px;
 }
 #card{
-  width: 100%;
+  width: 100% !important;
 }
 .image{
   max-height: 200px !important;
