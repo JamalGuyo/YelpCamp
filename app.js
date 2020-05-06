@@ -2,25 +2,26 @@ const express = require("express"),
   app = express(),
   bodyParser = require("body-parser"),
   mongoose = require("mongoose"),
-  passport = require('passport'),
-  LocalStrategy = require('passport-local'),
-  User = require('./models/user'),
-  methodOverride = require('method-override'),
-  flash = require('connect-flash'),
+  passport = require("passport"),
+  LocalStrategy = require("passport-local"),
+  User = require("./models/user"),
+  methodOverride = require("method-override"),
+  flash = require("connect-flash"),
   seedDb = require("./seed");
 
-// modules 
-const indexRoute = require('./routes/index'),
-  campgroundRoute = require('./routes/campgrounds'),
-  commentRoute = require('./routes/comments');
+// modules
+const indexRoute = require("./routes/index"),
+  campgroundRoute = require("./routes/campgrounds"),
+  commentRoute = require("./routes/comments");
 
 // mongoose setup
+const DATABASEURL = process.env.DATABASEURL || "mongodb://localhost/yelpcampDB";
 mongoose
-  .connect(process.env.DATABASEURL, {
+  .connect(DATABASEURL, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
-    useFindAndModify: false
+    useFindAndModify: false,
   })
   .then(() => console.log(`Yelcamp db connected`))
   .catch((err) => console.log(`can't connect to db ${err}`));
@@ -28,18 +29,20 @@ mongoose
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(methodOverride('_method'));
+app.use(methodOverride("_method"));
 app.use(flash());
 
 // run seedDB
-// seedDb();
+seedDb();
 
 // AUth setup
-app.use(require("express-session")({
-  secret: 'js is an awesome programming language',
-  resave: false,
-  saveUninitialized: false
-}));
+app.use(
+  require("express-session")({
+    secret: "js is an awesome programming language",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -49,10 +52,10 @@ passport.deserializeUser(User.deserializeUser());
 // custom middleware
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
-  res.locals.error = req.flash('error');
-  res.locals.success = req.flash('success');
+  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success");
   next();
-})
+});
 
 // routes
 app.use(indexRoute);
